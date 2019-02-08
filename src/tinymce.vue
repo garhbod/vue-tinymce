@@ -32,7 +32,12 @@
             value: String
         },
         methods: {
+            checkReadonly(value) {
+                if (value) this.setMode('readonly');
+                else this.setMode('design');
+            },
             setMode(mode) {
+                if (this.tinymce === null) return false;
                 if (this.tinymce.initialized) this.tinymce.setMode(mode);
                 else this.tinymce.on('init', function (e) { this.tinymce.setMode(mode) });
             },
@@ -42,11 +47,8 @@
                 if (this.tinymce != null && newValue !== this.tinymce.getContent())
                     this.tinymce.setContent(newValue)
             },
-            readonly(newValue) {
-                if (this.tinymce != null) {
-                    if (newValue) this.setMode('readonly');
-                    else this.setMode('design');
-                }
+            readonly: {
+                handler(newValue) { this.checkReadonly(newValue); }
             },
         },
         mounted() {
@@ -61,6 +63,7 @@
                 })
                 editor.on('init', (e) => {
                     this.tinymce = editor
+                    this.checkReadonly(this.readonly)
                     this.tinymce.setContent(this.value)
                     if (this.content != undefined) {
                         this.tinymce.setContent(this.content)
