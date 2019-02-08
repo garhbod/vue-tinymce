@@ -25,13 +25,23 @@
                 type: String,
                 default: null
             },
+            readonly: {
+                type: Boolean,
+                default: false
+            },
             value: String
         },
         watch: {
             value(newValue) {
                 if (this.tinymce != null && newValue !== this.tinymce.getContent())
                     this.tinymce.setContent(newValue)
-            }
+            },
+            readonly(newValue) {
+                if (this.tinymce != null) {
+                    if (newValue) this.tinymce.setMode('readonly');
+                    else this.tinymce.setMode('design');
+                }
+            },
         },
         mounted() {
 
@@ -75,5 +85,5 @@
             tinymce.execCommand('mceRemoveEditor', false, this.id)
         }
     }
-    
+
 </script>

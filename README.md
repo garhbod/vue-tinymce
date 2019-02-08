@@ -30,7 +30,7 @@ Vue.use(VueTinymce)
 ### Vue template
 ```html
 <div id="app">
-  <tinymce id="editor" v-model="editor" :options="options" @change="change" :content='content'></tinymce>
+  <tinymce id="editor" v-model="editor" :options="options" :readonly="false" @change="change" :content='content'></tinymce>
 </div>
 ```
 
