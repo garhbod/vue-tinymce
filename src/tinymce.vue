@@ -31,6 +31,12 @@
             },
             value: String
         },
+        methods: {
+            setMode(mode) {
+                if (this.tinymce.initialized) this.tinymce.setMode(mode);
+                else this.tinymce.on('init', function (e) { this.tinymce.setMode(mode) });
+            },
+        },
         watch: {
             value(newValue) {
                 if (this.tinymce != null && newValue !== this.tinymce.getContent())
@@ -38,8 +44,8 @@
             },
             readonly(newValue) {
                 if (this.tinymce != null) {
-                    if (newValue) this.tinymce.setMode('readonly');
-                    else this.tinymce.setMode('design');
+                    if (newValue) this.setMode('readonly');
+                    else this.setMode('design');
                 }
             },
         },
